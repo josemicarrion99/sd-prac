@@ -1,0 +1,34 @@
+
+
+<%- include('partials/_header') %>
+
+<div class="container">
+    <div class="col-md-5 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/coches/edit/<%= product._id %>" method="POST">
+
+                        <div class="container" style="margin-bottom: 1em;">
+                            <b>Modelo:</b> <i><%= product.modelo %></i>
+                        </div>
+                        <div class="container" style="margin-bottom: 1em;">
+                            <b>Matricula:</b> <i><%= product.matricula %></i>
+                        </div>
+                        <div class="container" style="margin-bottom: 1em;">
+                            <b>Precio:</b> <i><%= product.precio %></i>
+                        </div>
+                        <div class="container" style="margin-bottom: 1em;">
+                            
+                            <b>Disponibilidad:</b> <i><%= product.disponible %></i>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<%- include('partials/_footer') %>
+
