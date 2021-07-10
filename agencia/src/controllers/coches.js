@@ -17,7 +17,7 @@ function getCoches(req, res, next){
     
     .catch(error => {
         res.json({
-            msg: 'El servidor está deshabilitado.',
+            status: 'El servidor está deshabilitado.',
         })
         next() 
 
@@ -38,10 +38,10 @@ function getCoche(req, res, next){
     
     .catch(error => {
         res.json({
-            msg: 'El servidor está deshabilitado.',
+            status: 'El servidor está deshabilitado.',
         })
         next() 
-
+ 
     })
 }
 
@@ -49,10 +49,13 @@ function saveCoche(req, res, next){
 
     console.log(URL);
 
+    const auxToken = req.user.token;
+
     fetch(URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization':`Bearer ${auxToken}` 
         },
         body: JSON.stringify(req.body),
 
@@ -66,7 +69,7 @@ function saveCoche(req, res, next){
     
     .catch(error => {
         res.json({
-            msg: 'El servidor está deshabilitado.',
+            status: 'El servidor está deshabilitado.',
         })
         next() 
 
@@ -78,14 +81,14 @@ function rentCoche(req, res, next){
     console.log(URL);
 
     const productId = req.params.productId;
-
+    const auxToken = req.user.token;
 
     fetch(`${URL}/${productId}`, {
         method: 'PUT',
         body: JSON.stringify(req.body),
         headers: {
             'Content-Type': 'application/json',
-
+            'Authorization':`Bearer ${auxToken}` 
         }
 
     })
@@ -99,7 +102,7 @@ function rentCoche(req, res, next){
     
     .catch(error => {
         res.json({
-            msg: 'El servidor está deshabilitado.',
+            status: 'El servidor está deshabilitado.',
         })
         next() 
 
@@ -107,21 +110,6 @@ function rentCoche(req, res, next){
 }
 
 
-
-function updateCoche(req, res, next){
-    const update = req.params.id
-    const save = req.body
-    const newURL = `${url}/${update}`
-    fetch(newURL, {method: 'PUT', body: JSON.stringify(save), headers: { 'Content-type' : 'application/json' } })
-    .then(res => res.json())
-    .then(myjson => {
-        res.json(myjson)
-    })
-    .catch(error => {
-        res.json({ msg: 'Reintentelo más tarde' })
-        next()
-    })
-}
 
 
 module.exports = {

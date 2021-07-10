@@ -1,6 +1,6 @@
 const Usuario = require("../models/user");
 const token = require('../services/token');
-const serv = require('../services/serv');
+const serv = require('../services/crypto');
 
 const Bcrypt = require('bcrypt-nodejs');
 
@@ -13,9 +13,9 @@ usuarioCtrl.getUsuarios = async (req, res, next) => {
 };
 
 usuarioCtrl.createUsuario = async (req, res, next) => {
-  var salt = Bcrypt.genSaltSync(10)
+  var salt = Bcrypt.genSaltSync(10);
 
-  let hash = Bcrypt.hashSync(req.body.password, salt)
+  let hash = Bcrypt.hashSync(req.body.password, salt);
 
   const usuario = new Usuario();
 
@@ -33,7 +33,7 @@ usuarioCtrl.createUsuario = async (req, res, next) => {
       usuario.saldo = req.body.saldo,
       usuario.password = req.body.password,
 
-      await usuario.save(); //lo almacenamos (ponemos await porque es una operación de la bbdd)
+      usuario.save(); //lo almacenamos (ponemos await porque es una operación de la bbdd)
       res.json({ status: "Usuario created" });
 
     }

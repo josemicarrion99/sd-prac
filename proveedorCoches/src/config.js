@@ -4,6 +4,8 @@ module.exports = {
   
   DB_URL: "mongodb+srv://dbUser:Sdprac2021@cluster0.dot2w.mongodb.net/coches?retryWrites=true&w=majority",
   port: process.env.PORT || 3002,
+  secretToken: "Sdprac2021",
+
 
 }
 
