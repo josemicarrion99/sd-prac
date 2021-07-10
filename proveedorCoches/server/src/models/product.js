@@ -7,6 +7,8 @@ const productSchema = new Schema(
     matricula: { type: String, required: true },
     precio: { type: Number, required: true },
     disponible: { type: Boolean, default: true },
+    reservadoDesde: {type: Date},
+    reservadoHasta: {type: Date}
   },
   {
     versionKey: false, //dato de cuando fue creado/modificado por ultima vez

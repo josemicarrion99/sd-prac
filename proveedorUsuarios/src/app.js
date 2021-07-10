@@ -18,6 +18,6 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json());//para poder procesar Json
 
 // Routes
-app.use("/api/coches", require("./routes/product.routes"));
+app.use("/api", require("./routes/user.routes"));
 
 module.exports = app;

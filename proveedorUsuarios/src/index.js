@@ -1,7 +1,6 @@
 const app = require("./app");
 const config = require('./config');
 const mongoose = require('mongoose');
-const https = require('https');
 
 
 /*
@@ -23,10 +22,9 @@ mongoose.connect(config.DB_URL,(err,res)=>{
   }
   console.log(`Conexion a la base de datos establecida... \n Escuchando en puerto ${config.port}`);
 
-  
   app.listen(config.port, () => {
     console.log(`server on port ${config.port}`);
   });
   
-  //https.createServer().listen(config.port);
+  //http.createServer().listen(config.port);
 });
