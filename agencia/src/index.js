@@ -10,7 +10,7 @@ const opciones = {
     cert: fs.readFileSync(__dirname + '/cert/cert.pem')
 };
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 console.log('Establecida la conexion con la BBDD');
 

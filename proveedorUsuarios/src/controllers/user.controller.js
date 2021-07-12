@@ -13,6 +13,7 @@ usuarioCtrl.getUsuarios = async (req, res, next) => {
 };
 
 usuarioCtrl.createUsuario = async (req, res, next) => {
+  console.log(req.body)
   var salt = Bcrypt.genSaltSync(10);
 
   let hash = Bcrypt.hashSync(req.body.password, salt);
@@ -31,7 +32,7 @@ usuarioCtrl.createUsuario = async (req, res, next) => {
       usuario.nombre = req.body.nombre,
       usuario.tarjetaCredito = req.body.tarjetaCredito,
       usuario.saldo = req.body.saldo,
-      usuario.password = req.body.password,
+      usuario.password = hash
 
       usuario.save(); //lo almacenamos (ponemos await porque es una operación de la bbdd)
       res.json({ status: "Usuario created" });
@@ -52,9 +53,10 @@ usuarioCtrl.getToken = async (req, res, next) => {
 
     }else{
 
-      let hash = usuario.password
+      let hash = usuario.password;
 
       if(serv.comparaPassword(password, hash)){
+
         const auxToken = token.createToken(usuario);
 
         return res.json({

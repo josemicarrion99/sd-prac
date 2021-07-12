@@ -1,6 +1,6 @@
 'use strict'
 
-const Bcrypt    = require('bcrypt-nodejs')
+const Bcrypt = require('bcrypt-nodejs')
 
 
 function comparaPassword(password, hash){

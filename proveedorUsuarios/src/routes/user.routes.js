@@ -7,6 +7,6 @@ router.get("/usuarios", user.getUsuarios);
 
 router.post("/usuarios", user.createUsuario);
 
-router.post("/tokens", user.getToken);
+router.post("/usuarios/tokens", user.getToken);
 
 module.exports = router;

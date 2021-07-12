@@ -25,9 +25,9 @@ const fs = require('fs');
 const helmet = require('helmet');
 
 app.use(helmet());
-var accessLogStream = fs.createWriteStream(path.join(__dirname, './logs/access.log'), {flags: 'a'});
+//var accessLogStream = fs.createWriteStream(path.join(__dirname, './logs/access.log'), {flags: 'a'});
 
-app.use(logger('combined', {stream: accessLogStream}));
+//app.use(logger('combined', {stream: accessLogStream}));
 
 
 app.use('/api', api);

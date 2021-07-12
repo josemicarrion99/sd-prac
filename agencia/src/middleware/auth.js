@@ -1,8 +1,8 @@
 'use strict'
 
-const moment = require('moment')
-const config = require('../config')
-const jwt = require('jwt-simple')
+const moment = require('moment');
+const config = require('../../../proveedorCoches/src/config');
+const jwt = require('jwt-simple');
 
 function isAuth(req, res, next){
     const auxAuth = req.headers.authorization;
@@ -16,10 +16,10 @@ function isAuth(req, res, next){
     var payload = 0;
     
     try{
-        payload = jwt.decode(token, config.secretToken)
+        payload = jwt.decode(auxToken, config.secretToken)
     }catch(err){
         return res.json({
-            status: 'El token ha caducado/sido manipulado'
+            status: 'El token ha caducado/ sido manipulado'
         })
     }
 

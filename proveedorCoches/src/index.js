@@ -3,7 +3,12 @@ const config = require('./config');
 const mongoose = require('mongoose');
 const https = require('https');
 
+const fs = require('fs');
 
+const opciones = {
+    key: fs.readFileSync(__dirname + '/cert/key.pem'),
+    cert: fs.readFileSync(__dirname + '/cert/cert.pem')
+};
 /*
 // starting the server
 app.listen(app.get("port"), () => {
@@ -24,9 +29,9 @@ mongoose.connect(config.DB_URL,(err,res)=>{
   console.log(`Conexion a la base de datos establecida... \n Escuchando en puerto ${config.port}`);
 
   
-  app.listen(config.port, () => {
+  /*app.listen(config.port, () => {
     console.log(`server on port ${config.port}`);
   });
-  
-  //https.createServer().listen(config.port);
+  */
+  https.createServer(opciones, app).listen(config.port);
 });

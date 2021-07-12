@@ -1,20 +1,22 @@
 const jwt = require ('jwt-simple')
 const moment = require('moment')
-const config = require ('../../../proveedorCoches/server/src/config')
+const config = require ('../config')
 
 
 function createToken( user ){
     const payload = {
         sub: user._id,
         iat: moment().unix(),
-        exp: moment().add(config.TOKEN_TIME, 'minutes').unix()
+        exp: moment().add(config.tokenTime, 'minutes').unix()
+
     };
-    return jwt.encode(payload, config.SECRET_TOKEN);
+
+    return jwt.encode(payload, config.secretToken);
 }
 
 
 function decodeToken(token){
-    const payload = jwt.decode(token, config.SECRET_TOKEN, true);
+    const payload = jwt.decode(token, config.secretToken, true);
     return payload.sub;
 }
 
