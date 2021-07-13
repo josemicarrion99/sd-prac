@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                Registrarse
+            </div>
+            <div class="card-body">
+                <form #usuarioForm = "ngForm">
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="user.email" name="email" class="form-control" placeholder="Email" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="user.nombre" name="nombre" class="form-control" placeholder="Nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="user.tarjetaCredito" name="tarjetaCredito" class="form-control" placeholder="Tarjeta de credito" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" [(ngModel)]="user.password" name="password" class="form-control" placeholder="Password" required>
+                    </div>
+
+                    <button class="btn btn-success btn-block" (click)="signUp(usuarioForm)">
+                        Registrarse
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

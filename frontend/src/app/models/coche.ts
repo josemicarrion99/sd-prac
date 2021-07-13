@@ -1,9 +1,11 @@
 export interface Coche{
-    modelo: string
-    matricula: string
-    precio:number
-    disponible: boolean
-    _id: string
-    createdAt?: string
-    updatedAt?: string
+    modelo: String
+    matricula: String
+    precio: Number
+    disponible: Boolean
+    _id: String
+    reservadoDesde?: Date
+    reservadoHasta?: Date
+    createdAt?: String
+    updatedAt?: String
 }

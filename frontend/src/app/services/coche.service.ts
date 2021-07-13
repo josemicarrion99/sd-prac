@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Coche } from '../models/coche';
 
 @Injectable({
@@ -10,7 +10,7 @@ export class CocheService {
   coches: Coche[];
   selectedCoche: Coche;
 
-  URL_API = 'http://localhost:3100/api/coches' //3100 porque es donde se está ejecutando el server de coche
+  URL_API = 'https://localhost:3000/api/coches' //3000 porque es donde se está ejecutando la agencia
 
 
   constructor(private http: HttpClient) {
@@ -26,8 +26,13 @@ export class CocheService {
     };
   }
 
+  
   getCoches(){
     return this.http.get<Coche[]>(this.URL_API);
+  }
+  
+  getCoche(_id: string){
+    return this.http.get<Coche>(`${this.URL_API}/${_id}`);
   }
 
   createCoche(coche: Coche){
@@ -40,9 +45,9 @@ export class CocheService {
   }
 
   putCoche(coche: Coche){
-    return this.http.put(`${this.URL_API}/${coche._id}`, coche);
+    var cabecera = {headers: new HttpHeaders().set('Authorization', localStorage.getItem('token')+ "")};
+
+    return this.http.put(`${this.URL_API}/${coche._id}`, coche, cabecera);
   }
-
-
 
 }

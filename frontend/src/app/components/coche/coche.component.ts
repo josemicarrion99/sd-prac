@@ -55,8 +55,27 @@ export class CocheComponent implements OnInit {
       this.cocheService.deleteCoche(id).subscribe(
         res => this.getCoches(),
         err => console.log(err)
-        );
+      );
     }    
+  }
+
+  reservarCoche(form: NgForm, coche: Coche){
+
+    console.log(form.value);
+    console.log(coche);
+
+    coche.reservadoDesde = form.value.reservarDesde;
+    coche.reservadoHasta = form.value.reservarHasta;
+
+
+    console.log(coche);
+    
+    if(confirm('¿Estás seguro de que quieres reservar estas fechas?')){
+      this.cocheService.putCoche(coche).subscribe(
+        res => this.getCoches(),
+        err => console.log(err)
+      );
+    }
   }
 
   editCoche(coche: Coche){

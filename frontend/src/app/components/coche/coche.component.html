@@ -1,70 +1,60 @@
 
 <div class="row">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <form #cocheForm = "ngForm" (ngSubmit)="addCoche(cocheForm)" >
-                    <!-- este input oculto con la id, lo usamos para saber cuando le demos a guardar si estamos guardando un nuevo coche, o si estamos editando uno ya existente -->
-                    <input type="hidden" name="_id" [(ngModel)]="cocheService.selectedCoche._id">
-
-                    <div class="form-group">
-                        <input type="text" class="form-control" 
-                        name="modelo" placeholder="Introduzca la modelo"
-                        [(ngModel)]="cocheService.selectedCoche.modelo"> 
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" 
-                        name="matricula" placeholder="Introduzca la matricula"
-                        [(ngModel)]="cocheService.selectedCoche.matricula">
-                    </div>
-                    <div class="form-group">
-                        <input type="number" class="form-control" 
-                        name="precio" placeholder="Introduzca el precio"
-                        [(ngModel)]="cocheService.selectedCoche.precio">
-                    </div>
-
-                    <button class="btn btn-primary mt-2 btn-sm" style="margin-right: 1em;">
-                        Crear
-                    </button>
-                    <button class="btn btn-secondary mt-2 btn-sm"  (click)="resetForm(cocheForm)">
-                        Limpiar
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-8">
+    <form #cocheForm = "ngForm" >
+        <div class="container-fluid">
         <table class="table table-striped">
+
             <thead>
                 <tr>
                     <th>
-                        Matricula
+                        Modelo
                     </th>
                     <th>
-                        Modelo
+                        Matricula
                     </th>
                     <th>
                         Precio
                     </th>
                     <th>
-                        Operaciones
+                        Reservado desde
+                    </th>
+                    <th>
+                        Reservado hasta
+                    </th>
+                    <th>
+                        Reservar desde
+                    </th>
+                    <th>
+                        Reservar hasta
+                    </th>
+                    <th>
+                        Acciones
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let coche of cocheService.coches">
-                    <td>{{ coche.matricula}}</td>
                     <td>{{ coche.modelo}}</td>
+                    <td>{{ coche.matricula}}</td>
                     <td>{{ coche.precio}}</td>
-                    <td>
-                        <button class="btn btn-secondary btn-sm" style="margin-right: 1em;" (click)="editCoche(coche)">Editar</button>
-                        <button class="btn btn-danger btn-sm" (click)="deleteCoche(coche._id)">Borrar</button>
+                    <td style="max-width: fit-content; max-height: fit-content;">{{ coche.reservadoDesde | date:'fullDate'}}</td>
+                    <td style="max-width: fit-content; max-height: fit-content;">{{ coche.reservadoHasta | date:'fullDate'}}</td>
 
-                    </td>
+                        <td>
+                            <input type="date"  name="reservarDesde" [(ngModel)]="cocheService.selectedCoche.reservadoDesde" >
+                        </td>
+                        <td>
+                            <input type="date"  name="reservarHasta" [(ngModel)]="cocheService.selectedCoche.reservadoHasta" >
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" (click)="reservarCoche(cocheForm, coche)">Reservar</button>
+                        </td>
 
                 </tr>
 
             </tbody>
+
         </table>
     </div>
+</form>
 </div>

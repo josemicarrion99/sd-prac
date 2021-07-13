@@ -1,9 +1,25 @@
 <nav class="navbar navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="#">MEAN Employees</a>
+
+  <div class="container-fluid">
+    <div class="container">
+      <a class="navbar-brand" href="#" style="font-size:xx-large; padding: 1em;">Govatri</a>
+
+      <a class="navbar-brand" href="http://localhost:4200/coches">Coches</a>
+      <a class="navbar-brand" href="http://localhost:4200/aviones">Aviones</a>
+      <a class="navbar-brand" href="http://localhost:4200/hoteles">Hoteles</a>
+
+      <a class="navbar-brand" href="#">Pack</a>
+
+      
+      <button class="btn btn-light btn-sm"  onclick="location.href='http://localhost:4200/registrar'" style="float: right; margin-top: 1em;">Registrarse</button>
+      <button class="btn btn-warning btn-sm" onclick="location.href='http://localhost:4200/inicio-sesion'" style="float: right; margin-top: 1em;">Iniciar sesión</button>
+
+
+    </div>
   </div>
+
 </nav>
 
 <div class="container p-4">
-  <app-coche></app-coche>
+  <router-outlet></router-outlet>
 </div>
