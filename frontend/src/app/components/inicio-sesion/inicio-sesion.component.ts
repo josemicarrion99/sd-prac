@@ -35,7 +35,21 @@ export class InicioSesionComponent implements OnInit {
       res => {
         console.log(res);
         localStorage.setItem('token', `Bearer ${res.token}`);
-        // this.router.navigate(['/private'])
+        localStorage.setItem('emailSesionActual', this.user.email);
+
+        this.authService.getUsuarios().toPromise().then(
+          (cuentas) => {
+            cuentas.forEach(element => {
+
+              if (element.email == this.user.email) {
+                localStorage.setItem('tarjetaCreditoSesionActual', element.tarjetaCredito);
+
+              }
+            });
+          }
+        )
+
+        this.router.navigate(['/coches'])
       },
       err => console.log(err)
     )

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CocheService } from 'src/app/services/coche.service';
 import { NgForm } from '@angular/forms';
 import { Coche } from 'src/app/models/coche';
+import { BancoService } from 'src/app/services/banco.service';
+import { Cuenta } from 'src/app/models/cuenta';
+import { VariableAst } from '@angular/compiler';
 
 @Component({
   selector: 'app-coche',
@@ -10,13 +13,15 @@ import { Coche } from 'src/app/models/coche';
 })
 export class CocheComponent implements OnInit {
 
-  constructor(public cocheService: CocheService) { }
+  constructor(
+    public cocheService: CocheService,
+    public bancoService: BancoService) { }
 
   ngOnInit(): void {
     this.getCoches();
   }
 
-  resetForm(form: NgForm){
+  resetForm(form: NgForm) {
     form.reset();
   }
 
@@ -24,20 +29,20 @@ export class CocheComponent implements OnInit {
     this.cocheService.getCoches().subscribe(
       res => {
         this.cocheService.coches = res;
-      }, 
+      },
       err => console.error(err)
     );
   }
 
-  addCoche(form: NgForm){
-    if(form.value._id){ //si el input oculto de id tiene un valor es que hay actualizar
+  addCoche(form: NgForm) {
+    if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
       this.cocheService.putCoche(form.value).subscribe(
         res => {
           window.location.reload();
         },
         err => console.log(err)
       );
-    }else{ //sino es que estamos creando
+    } else { //sino es que estamos creando
       this.cocheService.createCoche(form.value).subscribe(
         res => {
           this.getCoches(); //hace que al añadir un coche se refresque y aparezca el nuevo
@@ -50,35 +55,70 @@ export class CocheComponent implements OnInit {
 
   }
 
-  deleteCoche(id: string){
-    if(confirm('¿Estás seguro de que quieres eliminarlo?')){
+  deleteCoche(id: string) {
+    if (confirm('¿Estás seguro de que quieres eliminarlo?')) {
       this.cocheService.deleteCoche(id).subscribe(
-        res => this.getCoches(),
-        err => console.log(err)
-      );
-    }    
-  }
-
-  reservarCoche(form: NgForm, coche: Coche){
-
-    console.log(form.value);
-    console.log(coche);
-
-    coche.reservadoDesde = form.value.reservarDesde;
-    coche.reservadoHasta = form.value.reservarHasta;
-
-
-    console.log(coche);
-    
-    if(confirm('¿Estás seguro de que quieres reservar estas fechas?')){
-      this.cocheService.putCoche(coche).subscribe(
         res => this.getCoches(),
         err => console.log(err)
       );
     }
   }
 
-  editCoche(coche: Coche){
+  reservarCoche(form: NgForm, coche: Coche) {
+
+    const auxTarjetaUsu = localStorage.getItem('tarjetaCreditoSesionActual');
+    const auxCorreoUsu = localStorage.getItem('emailSesionActual');
+    var auxCuenta: Cuenta;
+
+    auxCuenta = {
+      correoDelTitular: "",
+      saldo: 0,
+      codigo: "",
+      _id: ""
+    }
+
+    this.bancoService.getCuentas().toPromise().then(
+      (cuentas) => {
+        cuentas.forEach(element => {
+          if (element.correoDelTitular == auxCorreoUsu && element.codigo == auxTarjetaUsu) {
+            auxCuenta = element;
+            console.log("Elemento" );
+            console.log(element);
+
+
+            auxCuenta.saldo = auxCuenta.saldo - coche.precio;
+
+            if (auxCuenta.saldo > 0 && coche.disponible == true) {
+              console.log("El saldo sera" + auxCuenta.saldo);
+
+              if (confirm('¿Estás seguro de que quieres reservar estas fechas?')) {
+                coche.reservadoDesde = form.value.reservarDesde;
+                coche.reservadoHasta = form.value.reservarHasta;
+
+                this.cocheService.putCoche(coche).subscribe(
+                  res => this.getCoches(),
+                  err => console.log(err)
+                );
+
+                this.bancoService.putCuenta(auxCuenta).subscribe(
+                  res => console.log(this.bancoService.getCuenta(auxCuenta._id)),
+                  err => console.log(err)
+                );
+              }
+
+            } else {
+              alert("Problemas con su cuenta bancaria, contacte su banco");
+
+            }
+          }else{
+            alert("Problemas con su cuenta bancaria, contacte su banco");
+          }
+        });
+      }
+    )
+  }
+
+  editCoche(coche: Coche) {
     this.cocheService.selectedCoche = coche; //hace que se rellene el formulario con los datos del coche a editar
 
   }

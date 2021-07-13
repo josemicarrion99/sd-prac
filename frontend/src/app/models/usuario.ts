@@ -1,8 +1,8 @@
 export interface Usuario{
-    email: String
-    password: String
-    nombre: String
-    tarjetaCredito: String
+    email: string
+    password: string
+    nombre: string
+    tarjetaCredito: string
 
-    _id: String
+    _id: string
 }

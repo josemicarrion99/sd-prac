@@ -1,7 +1,7 @@
 export interface Coche{
     modelo: String
     matricula: String
-    precio: Number
+    precio: number
     disponible: Boolean
     _id: String
     reservadoDesde?: Date

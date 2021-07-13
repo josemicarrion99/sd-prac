@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const cuentaSchema = new Schema(
   {
     correoDelTitular: { type: String, required: true },
-    saldo: { type: String, default: 0 },
+    saldo: { type: Number, default: 0 },
     codigo: { type: String, required: true },
 
   },

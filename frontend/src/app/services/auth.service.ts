@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario';
@@ -35,6 +35,15 @@ export class AuthService {
   signUp(user: Usuario){
     return this.http.post<any>(this.URL_API, user);
   }
+
+  getUsuarios(){
+    var cabecera = {headers: new HttpHeaders().set('Authorization', localStorage.getItem('token')+ "")};
+
+    return this.http.get<Usuario[]>(this.URL_API, cabecera);
+  }
+
+
+
 
 
 
