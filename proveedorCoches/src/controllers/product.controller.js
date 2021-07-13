@@ -12,7 +12,7 @@ productCtrl.createProduct = async (req, res, next) => {
     modelo: req.body.modelo,
     matricula: req.body.matricula,
     precio: req.body.precio,
-    disponible: req.body.disponible,
+
     reservadoDesde: req.body.reservadoDesde,
     reservadoHasta: req.body.reservadoHasta,
   });

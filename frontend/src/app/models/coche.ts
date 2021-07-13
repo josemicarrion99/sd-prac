@@ -6,6 +6,4 @@ export interface Coche{
     _id: String
     reservadoDesde?: Date
     reservadoHasta?: Date
-    createdAt?: String
-    updatedAt?: String
 }

@@ -21,10 +21,7 @@ export class RegistrarComponent implements OnInit {
         password: "",
         nombre: "",
         tarjetaCredito: "",
-        saldo: 0,
         _id: "",
-        createdAt: "",
-        updatedAt: "",
       };
   
   }

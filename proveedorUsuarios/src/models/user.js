@@ -6,14 +6,13 @@ const userSchema = new Schema(
     email: { type: String, required: true, lowercase: true, index: true},
     nombre: { type: String, required: true },
     tarjetaCredito: { type: String, default: '0000-0000-0000-0000' },
-    saldo: {type: Number, default: 0},
 
 
-    password: {type: String},
+    password: {type: String, required: true},
   },
   {
     versionKey: false, //dato de cuando fue creado/modificado por ultima vez
-    timestamps: true, //para que no añada el __v al crear un objeto
+    timestamps: false, //para que no añada el __v al crear un objeto
   }
 );
 

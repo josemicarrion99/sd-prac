@@ -31,7 +31,6 @@ usuarioCtrl.createUsuario = async (req, res, next) => {
       usuario.email = req.body.email,
       usuario.nombre = req.body.nombre,
       usuario.tarjetaCredito = req.body.tarjetaCredito,
-      usuario.saldo = req.body.saldo,
       usuario.password = hash
 
       usuario.save(); //lo almacenamos (ponemos await porque es una operación de la bbdd)

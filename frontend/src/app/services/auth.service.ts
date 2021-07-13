@@ -21,10 +21,7 @@ export class AuthService {
       password: "",
       nombre: "",
       tarjetaCredito: "",
-      saldo: 0,
       _id: "",
-      createdAt: "",
-      updatedAt: "",
     };
 
   }

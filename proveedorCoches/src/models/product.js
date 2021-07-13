@@ -12,7 +12,7 @@ const productSchema = new Schema(
   },
   {
     versionKey: false, //dato de cuando fue creado/modificado por ultima vez
-    timestamps: true, //para que no añada el __v al crear un objeto
+    timestamps: false, //para que no añada el __v al crear un objeto
   }
 );
 

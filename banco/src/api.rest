@@ -1,0 +1,36 @@
+###
+
+GET http://localhost:3000/api/coches HTTP/1.1
+
+###
+
+POST http://localhost:3000/api/coches HTTP/1.1
+Content-Type: application/json
+
+{
+    "modelo": "Ry Ray",
+    "matricula": "Snr. Developer",
+    "precio": "22",
+    "reservadoDesde": "1987-09-28",
+    "reservadoHasta": "2021-09-28"
+
+}
+
+### 
+
+GET http://localhost:3000/api/coches/60e57922b7e5460ce30001de HTTP/1.1
+
+###
+
+PUT http://localhost:3000/api/coches/60e57922b7e5460ce30001de
+Content-Type: application/json
+
+{
+    "modelo": "Joe McMillan",
+    "matricula": "Digital Marketing Manager",
+    "disponible": "false",
+    "precio": "20000"
+}
+
+###
+DELETE http://localhost:3100/api/coches/60e578b5b7e5460ce30001d6

@@ -21,8 +21,6 @@ export class CocheService {
       precio: 0,
       disponible: true,
       _id: "",
-      createdAt: "",
-      updatedAt: ""
     };
   }
 
@@ -36,8 +34,9 @@ export class CocheService {
   }
 
   createCoche(coche: Coche){
-    return this.http.post(this.URL_API, coche);
+    var cabecera = {headers: new HttpHeaders().set('Authorization', localStorage.getItem('token')+ "")}; //como tiene restriccion el crear coche, le envio el token para que permita ser usado
 
+    return this.http.post(this.URL_API, coche, cabecera);
   }
 
   deleteCoche(_id: string){
@@ -49,5 +48,4 @@ export class CocheService {
 
     return this.http.put(`${this.URL_API}/${coche._id}`, coche, cabecera);
   }
-
 }

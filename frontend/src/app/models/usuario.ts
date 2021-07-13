@@ -3,9 +3,6 @@ export interface Usuario{
     password: String
     nombre: String
     tarjetaCredito: String
-    saldo?: Number
 
     _id: String
-    createdAt?: String
-    updatedAt?: String
 }
