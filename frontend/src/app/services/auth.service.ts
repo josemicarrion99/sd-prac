@@ -26,6 +26,15 @@ export class AuthService {
 
   }
 
+  isLogged(){
+    if(localStorage.getItem('token') == null){
+      return false;
+    }else{
+      return true;
+    }
+
+  }
+
   //get tokens
   signIn(user: Usuario){
     return this.http.post<any>(this.URL_API + '/tokens', user);

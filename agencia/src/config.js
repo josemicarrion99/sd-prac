@@ -14,7 +14,7 @@ module.exports = {
 
     secretToken: "Sdprac2021",
     
-    tokenTime: 10, //10 min
+    tokenTime: 40, //10 min
 
 
 

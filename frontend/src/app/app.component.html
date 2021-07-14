@@ -11,10 +11,10 @@
       <a class="navbar-brand" href="#">Pack</a>
 
       
-      <button class="btn btn-light btn-sm"  onclick="location.href='http://localhost:4200/registrar'" style="float: right; margin-top: 1em;">Registrarse</button>
-      <button class="btn btn-warning btn-sm" onclick="location.href='http://localhost:4200/inicio-sesion'" style="float: right; margin-top: 1em;">Iniciar sesión</button>
+      <button *ngIf="isLogged() == false" class="btn btn-light btn-sm"  onclick="location.href='http://localhost:4200/registrar'" style="float: right; margin-top: 1em;">Registrarse</button>
+      <button *ngIf="isLogged() == false" class="btn btn-warning btn-sm" onclick="location.href='http://localhost:4200/inicio-sesion'" style="float: right; margin-top: 1em;">Iniciar sesión</button>
 
-
+      <button *ngIf="isLogged() == true" class="btn btn-danger btn-sm" (click)="cerrarSesion()" style="float: right; margin-top: 1em;">Cerrar sesión</button>
     </div>
   </div>
 

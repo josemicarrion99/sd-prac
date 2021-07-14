@@ -36,7 +36,7 @@ export class RegistrarComponent implements OnInit {
         res => {
           console.log(res);
           localStorage.setItem('token', `Bearer ${res.token}`);
-          // this.router.navigate(['/private']);
+          this.router.navigate(['/inicio-sesion']);
         },
         err => console.log(err)
       )

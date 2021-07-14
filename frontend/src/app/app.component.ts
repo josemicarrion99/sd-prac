@@ -6,4 +6,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  isLogged(){
+    if(localStorage.getItem('token') == null){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  cerrarSesion(){
+    localStorage.clear();
+    window.location.reload();
+
+  }
 }

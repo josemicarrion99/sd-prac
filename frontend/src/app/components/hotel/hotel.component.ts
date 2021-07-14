@@ -1,37 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-import { CocheService } from 'src/app/services/coche.service';
+import { HotelService } from 'src/app/services/hotel.service';
 import { NgForm } from '@angular/forms';
-import { Coche } from 'src/app/models/coche';
+import { Hotel } from 'src/app/models/hotel';
 import { BancoService } from 'src/app/services/banco.service';
 import { Cuenta } from 'src/app/models/cuenta';
 import { VariableAst } from '@angular/compiler';
 
 @Component({
-  selector: 'app-coche',
-  templateUrl: './coche.component.html',
-  styleUrls: ['./coche.component.css']
+  selector: 'app-hotel',
+  templateUrl: './hotel.component.html',
+  styleUrls: ['./hotel.component.css']
 })
-export class CocheComponent implements OnInit {
+export class HotelComponent implements OnInit {
 
   constructor(
-    public cocheService: CocheService,
+    public hotelService: HotelService,
     public bancoService: BancoService) { }
 
   ngOnInit(): void {
-    this.getCoches();
+    this.getHoteles();
   }
 
   resetForm(form: NgForm) {
     form.reset();
   }
 
-  getCoches(): void {
+  getHoteles(): void {
 
-    this.cocheService.getCoches().subscribe(
+    this.hotelService.getHoteles().subscribe(
       res => {
         for (var i = 0; i < res.length; i++) {
           if (res[i].disponible == true) {
-            this.cocheService.coches.push(res[i]);
+            this.hotelService.hoteles.push(res[i]);
           }
         }
       },
@@ -39,19 +39,19 @@ export class CocheComponent implements OnInit {
     );
   }
 
-/*   addCoche(form: NgForm) {
+/*   addHotel(form: NgForm) {
     if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
-      this.cocheService.putCoche(form.value).subscribe(
+      this.hotelService.putHotel(form.value).subscribe(
         res => {
           window.location.reload();
         },
         err => console.log(err)
       );
     } else { //sino es que estamos creando
-      this.cocheService.createCoche(form.value).subscribe(
+      this.hotelService.createHotel(form.value).subscribe(
         res => {
-          this.getCoches(); //hace que al añadir un coche se refresque y aparezca el nuevo
-          form.reset(); //al añadir un coche, se vacian los inputs
+          this.getHoteles(); //hace que al añadir un hotel se refresque y aparezca el nuevo
+          form.reset(); //al añadir un hotel, se vacian los inputs
           window.location.reload();
         },
         err => console.error(err)
@@ -60,16 +60,16 @@ export class CocheComponent implements OnInit {
 
   } */
 
-  deleteCoche(id: string) {
+  deleteHotel(id: string) {
     if (confirm('¿Estás seguro de que quieres eliminarlo?')) {
-      this.cocheService.deleteCoche(id).subscribe(
-        res => this.getCoches(),
+      this.hotelService.deleteHotel(id).subscribe(
+        res => this.getHoteles(),
         err => console.log(err)
       );
     }
   }
 
-  reservarCoche(form: NgForm, coche: Coche) {
+  reservarHotel(form: NgForm, hotel: Hotel) {
 
     const auxTarjetaUsu = localStorage.getItem('tarjetaCreditoSesionActual');
     const auxCorreoUsu = localStorage.getItem('emailSesionActual');
@@ -83,7 +83,7 @@ export class CocheComponent implements OnInit {
     }
 
     console.log(form.value);
-    console.log(coche);
+    console.log(hotel);
     
     this.bancoService.getCuentas().toPromise().then(
       (cuentas) => {
@@ -94,20 +94,20 @@ export class CocheComponent implements OnInit {
             console.log(element);
 
 
-            auxCuenta.saldo = auxCuenta.saldo - coche.precio;
+            auxCuenta.saldo = auxCuenta.saldo - hotel.precio;
 
-            if (auxCuenta.saldo > 0 && coche.disponible == true) {
+            if (auxCuenta.saldo > 0 && hotel.disponible == true) {
               console.log("El saldo sera " + auxCuenta.saldo);
 
               if (confirm('¿Estás seguro de que quieres reservar estas fechas?')) {
-                coche.reservadoDesde = form.value.reservarDesde;
-                coche.reservadoHasta = form.value.reservarHasta;
-                coche.disponible = false;
+                hotel.reservadoDesde = form.value.reservarDesde;
+                hotel.reservadoHasta = form.value.reservarHasta;
+                hotel.disponible = false;
 
-                console.log("Actualmente el coche sera:");
-                console.log(coche);
+                console.log("Actualmente el hotel sera:");
+                console.log(hotel);
 
-                this.cocheService.putCoche(coche).subscribe(
+                this.hotelService.putHotel(hotel).subscribe(
                   res => res,
                   err => err
                 );
@@ -131,8 +131,8 @@ export class CocheComponent implements OnInit {
     )
   }
 
-  editCoche(coche: Coche) {
-    this.cocheService.selectedCoche = coche; //hace que se rellene el formulario con los datos del coche a editar
+  editHotel(hotel: Hotel) {
+    this.hotelService.selectedHotel = hotel; //hace que se rellene el formulario con los datos del hotel a editar
 
   }
 
@@ -144,8 +144,8 @@ export class CocheComponent implements OnInit {
     }
   }
 
-  /*   isDisponible(coche: Coche){
-      if(coche.disponible == false){
+  /*   isDisponible(hotel: Hotel){
+      if(hotel.disponible == false){
         return false;
       }else{
         return true;

@@ -33,6 +33,7 @@ export class BancoService {
   putCuenta(cuenta: Cuenta){
     var cabecera = {headers: new HttpHeaders().set('Authorization', localStorage.getItem('token')+ "")};
 
+    console.log(cuenta);
     return this.http.put(`${this.URL_API}/${cuenta._id}`, cuenta, cabecera);
   }
 

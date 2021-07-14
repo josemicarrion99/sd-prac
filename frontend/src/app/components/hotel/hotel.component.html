@@ -1,0 +1,61 @@
+<div class="row">
+    <form #hotelForm="ngForm">
+        <div class="container-fluid">
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th>
+                            Direccion
+                        </th>
+                        <th>
+                            Personas x habitacion
+                        </th>
+                        <th>
+                            Precio x dia
+                        </th>
+                        <th>
+                            Reservado desde
+                        </th>
+                        <th>
+                            Reservado hasta
+                        </th>
+                        <th>
+                            Reservar desde
+                        </th>
+                        <th>
+                            Reservar hasta
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let hotel of hotelService.hoteles">
+                        <td>{{ hotel.direccion}}</td>
+                        <td>{{ hotel.personasHabitacion}}</td>
+                        <td>{{ hotel.precio}}</td>
+                        <td style="max-width: fit-content; max-height: fit-content;">{{ hotel.reservadoDesde |
+                            date:'fullDate'}}</td>
+                        <td style="max-width: fit-content; max-height: fit-content;">{{ hotel.reservadoHasta |
+                            date:'fullDate'}}</td>
+
+                        <td>
+                            <input *ngIf="isLogged() == true" type="date" name="reservarDesde"
+                                [(ngModel)]="hotelService.selectedHotel.reservadoDesde">
+                        </td>
+                        <td>
+                            <input *ngIf="isLogged() == true" type="date" name="reservarHasta"
+                                [(ngModel)]="hotelService.selectedHotel.reservadoHasta">
+                        </td>
+                        <td>
+                            <button *ngIf="isLogged() == true" class="btn btn-primary btn-sm"
+                                (click)="reservarHotel(hotelForm, hotel)">Reservar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>

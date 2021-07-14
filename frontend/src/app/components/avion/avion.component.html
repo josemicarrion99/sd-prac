@@ -1,18 +1,18 @@
 <div class="row">
-    <form #cocheForm="ngForm">
+    <form #avionForm="ngForm">
         <div class="container-fluid">
             <table class="table table-striped">
 
                 <thead>
                     <tr>
                         <th>
-                            Modelo
+                            Salida
                         </th>
                         <th>
-                            Matricula
+                            Destino
                         </th>
                         <th>
-                            Precio x dia
+                            Precio
                         </th>
                         <th>
                             Reservado desde
@@ -32,26 +32,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let coche of cocheService.coches" >
-                            <td>{{ coche.modelo}}</td>
-                            <td>{{ coche.matricula}}</td>
-                            <td>{{ coche.precio}}</td>
-                            <td style="max-width: fit-content; max-height: fit-content;">{{ coche.reservadoDesde |
+                    <tr *ngFor="let avion of avionService.aviones" >
+                            <td>{{ avion.salida}}</td>
+                            <td>{{ avion.destino}}</td>
+                            <td>{{ avion.precio}}</td>
+                            <td style="max-width: fit-content; max-height: fit-content;">{{ avion.reservadoDesde |
                                 date:'fullDate'}}</td>
-                            <td style="max-width: fit-content; max-height: fit-content;">{{ coche.reservadoHasta |
+                            <td style="max-width: fit-content; max-height: fit-content;">{{ avion.reservadoHasta |
                                 date:'fullDate'}}</td>
 
                             <td>
                                 <input *ngIf="isLogged() == true" type="date" name="reservarDesde"
-                                    [(ngModel)]="cocheService.selectedCoche.reservadoDesde">
+                                    [(ngModel)]="avionService.selectedAvion.reservadoDesde">
                             </td>
                             <td>
                                 <input *ngIf="isLogged() == true" type="date" name="reservarHasta"
-                                    [(ngModel)]="cocheService.selectedCoche.reservadoHasta">
+                                    [(ngModel)]="avionService.selectedAvion.reservadoHasta">
                             </td>
                             <td>
                                 <button *ngIf="isLogged() == true" class="btn btn-primary btn-sm"
-                                    (click)="reservarCoche(cocheForm, coche)">Reservar</button>
+                                    (click)="reservarAvion(avionForm, avion)">Reservar</button>
                             </td>
                     </tr>
                 </tbody>
