@@ -1,0 +1,68 @@
+<div class="row">
+    <form #avionForm="ngForm">
+        <div class="container-fluid">
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th>
+                            Salida
+                        </th>
+                        <th>
+                            Destino
+                        </th>
+                        <th>
+                            Precio
+                        </th>
+                        <th>
+                            Reservado desde
+                        </th>
+                        <th>
+                            Reservado hasta
+                        </th>
+                        <th>
+                            Reservar desde
+                        </th>
+                        <th>
+                            Reservar hasta
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let avion of avionService.aviones">
+                        <td>{{ avion.salida}}</td>
+                        <td>{{ avion.destino}}</td>
+                        <td>{{ avion.precio}}</td>
+                        <td style="max-width: fit-content; max-height: fit-content;">{{ avion.reservadoDesde |
+                            date:'fullDate'}}</td>
+                        <td style="max-width: fit-content; max-height: fit-content;">{{ avion.reservadoHasta |
+                            date:'fullDate'}}</td>
+
+                        <td>
+                            <input *ngIf="isLogged() == true" type="date" name="reservarDesde"
+                                [(ngModel)]="avionService.selectedAvion.reservadoDesde">
+                        </td>
+                        <td>
+                            <input *ngIf="isLogged() == true" type="date" name="reservarHasta"
+                                [(ngModel)]="avionService.selectedAvion.reservadoHasta">
+                        </td>
+                        <td>
+                            <em *ngIf="isLogged() == true">Solo ida: </em>
+                            <input *ngIf="isLogged() == true" [(ngModel)]="avionService.selectedAvion.soloIda" type="checkbox"  id="soloIda" name="soloIda" checked autocomplete="off" >
+                            <div class="container" style="max-width: 3em; max-height: 3em;"></div>
+
+                            <button *ngIf="isLogged() == true" class="btn btn-primary btn-sm"
+                                (click)="reservarAvion(avionForm, avion)">Reservar</button>
+
+                             <button *ngIf="isBooked(avion) == true" class="btn btn-danger btn-sm"
+                                (click)="anularReserva(avion)">Anular</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>

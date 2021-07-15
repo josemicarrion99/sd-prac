@@ -1,0 +1,65 @@
+<div class="row">
+    <form #cocheForm="ngForm">
+        <div class="container-fluid">
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th>
+                            Modelo
+                        </th>
+                        <th>
+                            Matricula
+                        </th>
+                        <th>
+                            Precio
+                        </th>
+                        <th>
+                            Reservado desde
+                        </th>
+                        <th>
+                            Reservado hasta
+                        </th>
+                        <th>
+                            Reservar desde
+                        </th>
+                        <th>
+                            Reservar hasta
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let coche of cocheService.coches">
+                        <td>{{ coche.modelo}}</td>
+                        <td>{{ coche.matricula}}</td>
+                        <td>{{ coche.precio}}</td>
+                        <td style="max-width: fit-content; max-height: fit-content;">{{ coche.reservadoDesde |
+                            date:'fullDate'}}</td>
+                        <td style="max-width: fit-content; max-height: fit-content;">{{ coche.reservadoHasta |
+                            date:'fullDate'}}</td>
+
+                        <td>
+                            <input *ngIf="isLogged() == true" type="date" name="reservarDesde"
+                                [(ngModel)]="cocheService.selectedCoche.reservadoDesde">
+                        </td>
+                        <td>
+                            <input *ngIf="isLogged() == true" type="date" name="reservarHasta"
+                                [(ngModel)]="cocheService.selectedCoche.reservadoHasta">
+                        </td>
+                        <td>
+                            <button *ngIf="isLogged() == true" class="btn btn-primary btn-sm"
+                                (click)="reservarCoche(cocheForm, coche)">Reservar</button>
+                            <button *ngIf="isBooked(coche) == true" class="btn btn-danger btn-sm"
+                                (click)="anularReserva(coche)">Anular</button>
+
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
