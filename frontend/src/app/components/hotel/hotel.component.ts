@@ -30,7 +30,7 @@ export class HotelComponent implements OnInit {
     this.hotelService.getHoteles().subscribe(
       res => {
         for (var i = 0; i < res.length; i++) {
-          if (res[i].disponible == true) {
+          if (res[i].disponible == true || this.isBooked(res[i]) == true) {
             this.hotelService.hoteles.push(res[i]);
           }
         }
@@ -39,26 +39,26 @@ export class HotelComponent implements OnInit {
     );
   }
 
-/*   addHotel(form: NgForm) {
-    if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
-      this.hotelService.putHotel(form.value).subscribe(
-        res => {
-          window.location.reload();
-        },
-        err => console.log(err)
-      );
-    } else { //sino es que estamos creando
-      this.hotelService.createHotel(form.value).subscribe(
-        res => {
-          this.getHoteles(); //hace que al añadir un hotel se refresque y aparezca el nuevo
-          form.reset(); //al añadir un hotel, se vacian los inputs
-          window.location.reload();
-        },
-        err => console.error(err)
-      );
-    }
-
-  } */
+  /*   addHotel(form: NgForm) {
+      if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
+        this.hotelService.putHotel(form.value).subscribe(
+          res => {
+            window.location.reload();
+          },
+          err => console.log(err)
+        );
+      } else { //sino es que estamos creando
+        this.hotelService.createHotel(form.value).subscribe(
+          res => {
+            this.getHoteles(); //hace que al añadir un hotel se refresque y aparezca el nuevo
+            form.reset(); //al añadir un hotel, se vacian los inputs
+            window.location.reload();
+          },
+          err => console.error(err)
+        );
+      }
+  
+    } */
 
   deleteHotel(id: string) {
     if (confirm('¿Estás seguro de que quieres eliminarlo?')) {
@@ -84,7 +84,7 @@ export class HotelComponent implements OnInit {
 
     console.log(form.value);
     console.log(hotel);
-    
+
     this.bancoService.getCuentas().toPromise().then(
       (cuentas) => {
         cuentas.forEach(element => {
@@ -116,8 +116,11 @@ export class HotelComponent implements OnInit {
                   res => res,
                   err => err
                 );
+
+                localStorage.setItem('hotelReservado', hotel._id);
               }
               //window.location.reload();
+
 
             } else {
               alert("No tiene suficiente dinero en la cuenta bancaria");
@@ -142,6 +145,72 @@ export class HotelComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  isBooked(hotel: Hotel) {
+
+    if (localStorage.getItem('hotelReservado') == hotel._id) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+  anularReserva(hotel: Hotel) {
+    localStorage.removeItem('hotelReservado');
+
+    const auxTarjetaUsu = localStorage.getItem('tarjetaCreditoSesionActual');
+    const auxCorreoUsu = localStorage.getItem('emailSesionActual');
+    var auxCuenta: Cuenta;
+
+    auxCuenta = {
+      correoDelTitular: "",
+      saldo: 0,
+      codigo: "",
+      _id: ""
+    }
+
+    console.log(hotel);
+
+    this.bancoService.getCuentas().toPromise().then(
+      (cuentas) => {
+        cuentas.forEach(element => {
+          if (element.correoDelTitular == auxCorreoUsu && element.codigo == auxTarjetaUsu) {
+            auxCuenta = element;
+
+            auxCuenta.saldo = auxCuenta.saldo + hotel.precio;
+
+            console.log("El saldo sera " + auxCuenta.saldo);
+
+            hotel.disponible = true;
+            hotel.reservadoDesde = undefined;
+            hotel.reservadoHasta = undefined;
+
+            console.log("Actualmente el hotel sera:");
+            console.log(hotel);
+
+            this.hotelService.putHotel(hotel).subscribe(
+              res => res,
+              err => err
+            );
+
+            this.bancoService.putCuenta(auxCuenta).subscribe(
+              res => res,
+              err => err
+            );
+
+            //window.location.reload();
+
+
+          } else {
+            alert("Problemas con su cuenta bancaria, contacte su banco");
+          }
+        });
+      }
+    )
+
+
   }
 
   /*   isDisponible(hotel: Hotel){

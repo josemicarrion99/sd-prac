@@ -19,6 +19,7 @@ export class AvionService {
       salida: "",
       destino: "",
       precio: 0,
+      soloIda: false,
       disponible: true,
       _id: "",
     };

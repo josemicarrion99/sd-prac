@@ -12,6 +12,7 @@ productCtrl.createProduct = async (req, res, next) => {
     salida: req.body.salida,
     destino: req.body.destino,
     precio: req.body.precio,
+    soloIda: req.body.soloIda,
 
     reservadoDesde: req.body.reservadoDesde,
     reservadoHasta: req.body.reservadoHasta,

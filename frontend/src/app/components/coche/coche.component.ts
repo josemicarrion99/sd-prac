@@ -30,7 +30,7 @@ export class CocheComponent implements OnInit {
     this.cocheService.getCoches().subscribe(
       res => {
         for (var i = 0; i < res.length; i++) {
-          if (res[i].disponible == true) {
+          if (res[i].disponible == true || this.isBooked(res[i]) == true) {
             this.cocheService.coches.push(res[i]);
           }
         }
@@ -39,26 +39,26 @@ export class CocheComponent implements OnInit {
     );
   }
 
-/*   addCoche(form: NgForm) {
-    if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
-      this.cocheService.putCoche(form.value).subscribe(
-        res => {
-          window.location.reload();
-        },
-        err => console.log(err)
-      );
-    } else { //sino es que estamos creando
-      this.cocheService.createCoche(form.value).subscribe(
-        res => {
-          this.getCoches(); //hace que al añadir un coche se refresque y aparezca el nuevo
-          form.reset(); //al añadir un coche, se vacian los inputs
-          window.location.reload();
-        },
-        err => console.error(err)
-      );
-    }
-
-  } */
+  /*   addCoche(form: NgForm) {
+      if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
+        this.cocheService.putCoche(form.value).subscribe(
+          res => {
+            window.location.reload();
+          },
+          err => console.log(err)
+        );
+      } else { //sino es que estamos creando
+        this.cocheService.createCoche(form.value).subscribe(
+          res => {
+            this.getCoches(); //hace que al añadir un coche se refresque y aparezca el nuevo
+            form.reset(); //al añadir un coche, se vacian los inputs
+            window.location.reload();
+          },
+          err => console.error(err)
+        );
+      }
+  
+    } */
 
   deleteCoche(id: string) {
     if (confirm('¿Estás seguro de que quieres eliminarlo?')) {
@@ -84,7 +84,7 @@ export class CocheComponent implements OnInit {
 
     console.log(form.value);
     console.log(coche);
-    
+
     this.bancoService.getCuentas().toPromise().then(
       (cuentas) => {
         cuentas.forEach(element => {
@@ -116,8 +116,11 @@ export class CocheComponent implements OnInit {
                   res => res,
                   err => err
                 );
+
+                localStorage.setItem('cocheReservado', coche._id);
               }
               //window.location.reload();
+
 
             } else {
               alert("No tiene suficiente dinero en la cuenta bancaria");
@@ -142,6 +145,72 @@ export class CocheComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  isBooked(coche: Coche) {
+
+    if (localStorage.getItem('cocheReservado') == coche._id) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+  anularReserva(coche: Coche) {
+    localStorage.removeItem('cocheReservado');
+
+    const auxTarjetaUsu = localStorage.getItem('tarjetaCreditoSesionActual');
+    const auxCorreoUsu = localStorage.getItem('emailSesionActual');
+    var auxCuenta: Cuenta;
+
+    auxCuenta = {
+      correoDelTitular: "",
+      saldo: 0,
+      codigo: "",
+      _id: ""
+    }
+
+    console.log(coche);
+
+    this.bancoService.getCuentas().toPromise().then(
+      (cuentas) => {
+        cuentas.forEach(element => {
+          if (element.correoDelTitular == auxCorreoUsu && element.codigo == auxTarjetaUsu) {
+            auxCuenta = element;
+
+            auxCuenta.saldo = auxCuenta.saldo + coche.precio;
+
+            console.log("El saldo sera " + auxCuenta.saldo);
+
+            coche.disponible = true;
+            coche.reservadoDesde = undefined;
+            coche.reservadoHasta = undefined;
+
+            console.log("Actualmente el coche sera:");
+            console.log(coche);
+
+            this.cocheService.putCoche(coche).subscribe(
+              res => res,
+              err => err
+            );
+
+            this.bancoService.putCuenta(auxCuenta).subscribe(
+              res => res,
+              err => err
+            );
+
+            //window.location.reload();
+
+
+          } else {
+            alert("Problemas con su cuenta bancaria, contacte su banco");
+          }
+        });
+      }
+    )
+
+
   }
 
   /*   isDisponible(coche: Coche){

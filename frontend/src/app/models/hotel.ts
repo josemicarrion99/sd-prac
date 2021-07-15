@@ -4,7 +4,7 @@ export interface Hotel{
     precio: number
 
     disponible: boolean
-    _id: String
+    _id: string
     reservadoDesde?: Date
     reservadoHasta?: Date
 }

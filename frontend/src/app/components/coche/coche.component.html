@@ -12,7 +12,7 @@
                             Matricula
                         </th>
                         <th>
-                            Precio x dia
+                            Precio
                         </th>
                         <th>
                             Reservado desde
@@ -32,27 +32,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let coche of cocheService.coches" >
-                            <td>{{ coche.modelo}}</td>
-                            <td>{{ coche.matricula}}</td>
-                            <td>{{ coche.precio}}</td>
-                            <td style="max-width: fit-content; max-height: fit-content;">{{ coche.reservadoDesde |
-                                date:'fullDate'}}</td>
-                            <td style="max-width: fit-content; max-height: fit-content;">{{ coche.reservadoHasta |
-                                date:'fullDate'}}</td>
+                    <tr *ngFor="let coche of cocheService.coches">
+                        <td>{{ coche.modelo}}</td>
+                        <td>{{ coche.matricula}}</td>
+                        <td>{{ coche.precio}}</td>
+                        <td style="max-width: fit-content; max-height: fit-content;">{{ coche.reservadoDesde |
+                            date:'fullDate'}}</td>
+                        <td style="max-width: fit-content; max-height: fit-content;">{{ coche.reservadoHasta |
+                            date:'fullDate'}}</td>
 
-                            <td>
-                                <input *ngIf="isLogged() == true" type="date" name="reservarDesde"
-                                    [(ngModel)]="cocheService.selectedCoche.reservadoDesde">
-                            </td>
-                            <td>
-                                <input *ngIf="isLogged() == true" type="date" name="reservarHasta"
-                                    [(ngModel)]="cocheService.selectedCoche.reservadoHasta">
-                            </td>
-                            <td>
-                                <button *ngIf="isLogged() == true" class="btn btn-primary btn-sm"
-                                    (click)="reservarCoche(cocheForm, coche)">Reservar</button>
-                            </td>
+                        <td>
+                            <input *ngIf="isLogged() == true" type="date" name="reservarDesde"
+                                [(ngModel)]="cocheService.selectedCoche.reservadoDesde">
+                        </td>
+                        <td>
+                            <input *ngIf="isLogged() == true" type="date" name="reservarHasta"
+                                [(ngModel)]="cocheService.selectedCoche.reservadoHasta">
+                        </td>
+                        <td>
+                            <button *ngIf="isLogged() == true" class="btn btn-primary btn-sm"
+                                (click)="reservarCoche(cocheForm, coche)">Reservar</button>
+                            <button *ngIf="isBooked(coche) == true" class="btn btn-danger btn-sm"
+                                (click)="anularReserva(coche)">Anular</button>
+
+
+                        </td>
                     </tr>
                 </tbody>
             </table>

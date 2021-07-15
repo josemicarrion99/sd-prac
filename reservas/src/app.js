@@ -16,6 +16,6 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json());//para poder procesar Json
 
 // Routes
-app.use("/api/coches", require("./routes/product.routes"));
+app.use("/api/reservas", require("./routes/product.routes"));
 
 module.exports = app;

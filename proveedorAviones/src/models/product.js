@@ -6,6 +6,7 @@ const productSchema = new Schema(
     salida: { type: String, required: true },
     destino: { type: String, required: true },
     precio: { type: Number, required: true },
+    soloIda: {type: Boolean},
 
     disponible: { type: Boolean, default: true },
     reservadoDesde: {type: Date},

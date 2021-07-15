@@ -12,6 +12,8 @@ module.exports = {
 
     urlBanco: 'https://localhost:3005/api/banco',
 
+    urlReservas: 'https://localhost:3006/api/reservas',
+
     secretToken: "Sdprac2021",
     
     tokenTime: 40, //10 min

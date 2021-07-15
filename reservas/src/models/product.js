@@ -3,12 +3,12 @@ const { Schema } = mongoose;
 
 const productSchema = new Schema(
   {
-    modelo: { type: String, required: true },
-    matricula: { type: String, required: true },
-    precio: { type: Number, required: true },
-    disponible: { type: Boolean, default: true },
-    reservadoDesde: {type: Date},
-    reservadoHasta: {type: Date}
+    idCoche: { type: String },
+    idAvion: { type: String },
+    idHotel: { type: String },
+    precio: {type: Number},
+
+
   },
   {
     versionKey: false, //dato de cuando fue creado/modificado por ultima vez

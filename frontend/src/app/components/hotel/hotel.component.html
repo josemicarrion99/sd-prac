@@ -12,7 +12,7 @@
                             Personas x habitacion
                         </th>
                         <th>
-                            Precio x dia
+                            Precio
                         </th>
                         <th>
                             Reservado desde
@@ -52,6 +52,8 @@
                         <td>
                             <button *ngIf="isLogged() == true" class="btn btn-primary btn-sm"
                                 (click)="reservarHotel(hotelForm, hotel)">Reservar</button>
+                            <button *ngIf="isBooked(hotel) == true" class="btn btn-danger btn-sm"
+                                (click)="anularReserva(hotel)">Anular</button>
                         </td>
                     </tr>
                 </tbody>

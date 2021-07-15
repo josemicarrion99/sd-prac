@@ -30,7 +30,7 @@ export class AvionComponent implements OnInit {
     this.avionService.getAviones().subscribe(
       res => {
         for (var i = 0; i < res.length; i++) {
-          if (res[i].disponible == true) {
+          if (res[i].disponible == true || this.isBooked(res[i]) == true) {
             this.avionService.aviones.push(res[i]);
           }
         }
@@ -39,26 +39,26 @@ export class AvionComponent implements OnInit {
     );
   }
 
-/*   addAvion(form: NgForm) {
-    if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
-      this.avionService.putAvion(form.value).subscribe(
-        res => {
-          window.location.reload();
-        },
-        err => console.log(err)
-      );
-    } else { //sino es que estamos creando
-      this.avionService.createAvion(form.value).subscribe(
-        res => {
-          this.getAviones(); //hace que al añadir un avion se refresque y aparezca el nuevo
-          form.reset(); //al añadir un avion, se vacian los inputs
-          window.location.reload();
-        },
-        err => console.error(err)
-      );
-    }
-
-  } */
+  /*   addAvion(form: NgForm) {
+      if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
+        this.avionService.putAvion(form.value).subscribe(
+          res => {
+            window.location.reload();
+          },
+          err => console.log(err)
+        );
+      } else { //sino es que estamos creando
+        this.avionService.createAvion(form.value).subscribe(
+          res => {
+            this.getAviones(); //hace que al añadir un avion se refresque y aparezca el nuevo
+            form.reset(); //al añadir un avion, se vacian los inputs
+            window.location.reload();
+          },
+          err => console.error(err)
+        );
+      }
+  
+    } */
 
   deleteAvion(id: string) {
     if (confirm('¿Estás seguro de que quieres eliminarlo?')) {
@@ -84,7 +84,7 @@ export class AvionComponent implements OnInit {
 
     console.log(form.value);
     console.log(avion);
-    
+
     this.bancoService.getCuentas().toPromise().then(
       (cuentas) => {
         cuentas.forEach(element => {
@@ -93,8 +93,12 @@ export class AvionComponent implements OnInit {
             console.log("Elemento");
             console.log(element);
 
+            if(form.value.soloIda == true){
+              auxCuenta.saldo = auxCuenta.saldo - avion.precio;
+            }else{
+              auxCuenta.saldo = auxCuenta.saldo - (2 * avion.precio);
+            }
 
-            auxCuenta.saldo = auxCuenta.saldo - avion.precio;
 
             if (auxCuenta.saldo > 0 && avion.disponible == true) {
               console.log("El saldo sera " + auxCuenta.saldo);
@@ -103,6 +107,7 @@ export class AvionComponent implements OnInit {
                 avion.reservadoDesde = form.value.reservarDesde;
                 avion.reservadoHasta = form.value.reservarHasta;
                 avion.disponible = false;
+                avion.soloIda = form.value.soloIda;
 
                 console.log("Actualmente el avion sera:");
                 console.log(avion);
@@ -116,8 +121,11 @@ export class AvionComponent implements OnInit {
                   res => res,
                   err => err
                 );
+
+                localStorage.setItem('avionReservado', avion._id);
               }
               //window.location.reload();
+
 
             } else {
               alert("No tiene suficiente dinero en la cuenta bancaria");
@@ -142,6 +150,73 @@ export class AvionComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  isBooked(avion: Avion) {
+
+    if (localStorage.getItem('avionReservado') == avion._id) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+  anularReserva(avion: Avion) {
+    localStorage.removeItem('avionReservado');
+
+    const auxTarjetaUsu = localStorage.getItem('tarjetaCreditoSesionActual');
+    const auxCorreoUsu = localStorage.getItem('emailSesionActual');
+    var auxCuenta: Cuenta;
+
+    auxCuenta = {
+      correoDelTitular: "",
+      saldo: 0,
+      codigo: "",
+      _id: ""
+    }
+
+    console.log(avion);
+
+    this.bancoService.getCuentas().toPromise().then(
+      (cuentas) => {
+        cuentas.forEach(element => {
+          if (element.correoDelTitular == auxCorreoUsu && element.codigo == auxTarjetaUsu) {
+            auxCuenta = element;
+
+            auxCuenta.saldo = auxCuenta.saldo + avion.precio;
+
+            console.log("El saldo sera " + auxCuenta.saldo);
+
+            avion.disponible = true;
+            avion.reservadoDesde = undefined;
+            avion.reservadoHasta = undefined;
+
+
+            console.log("Actualmente el avion sera:");
+            console.log(avion);
+
+            this.avionService.putAvion(avion).subscribe(
+              res => res,
+              err => err
+            );
+
+            this.bancoService.putCuenta(auxCuenta).subscribe(
+              res => res,
+              err => err
+            );
+
+            //window.location.reload();
+
+
+          } else {
+            alert("Problemas con su cuenta bancaria, contacte su banco");
+          }
+        });
+      }
+    )
+
+
   }
 
   /*   isDisponible(avion: Avion){
