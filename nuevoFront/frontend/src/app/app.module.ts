@@ -10,6 +10,7 @@ import { AvionComponent } from './components/avion/avion.component';
 import { InicioSesionComponent } from './components/inicio-sesion/inicio-sesion.component';
 import { RegistrarComponent } from './components/registrar/registrar.component';
 import { RouterModule } from '@angular/router';
+import { PackComponent } from './components/pack/pack.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,9 @@ import { RouterModule } from '@angular/router';
     AvionComponent,
     HotelComponent,
     InicioSesionComponent,
-    RegistrarComponent
+    RegistrarComponent,
+    PackComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -30,6 +33,8 @@ import { RouterModule } from '@angular/router';
       {path: 'aviones', component: AvionComponent},
       {path: 'inicio-sesion', component: InicioSesionComponent},
       {path: 'registrar', component: RegistrarComponent},
+      {path: 'pack', component: PackComponent}
+
 
     ])
   ],

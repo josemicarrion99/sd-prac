@@ -5,7 +5,7 @@ const cuentaSchema = new Schema(
   {
     correoDelTitular: { type: String, required: true },
     saldo: { type: Number, default: 0 },
-    codigo: { type: String, required: true },
+    codigo: { type: String, required: true , unique: true},
 
   },
   {

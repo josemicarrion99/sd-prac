@@ -30,6 +30,11 @@ export class InicioSesionComponent implements OnInit {
   }
 
   signIn(form: NgForm){
+    if(this.user.email == "" || this.user.password == ""){
+      alert("Credenciales invalidas");
+      return;
+    }
+
     this.authService.signIn(this.user)
     .subscribe(
       res => {

@@ -31,6 +31,11 @@ export class RegistrarComponent implements OnInit {
 
   signUp(form: NgForm) {
 
+    if(this.user.email == "" || this.user.nombre == "" || this.user.password == "" || this.user.tarjetaCredito == ""){
+      alert("Datos introducidos invalidos, revisa los campos");
+      return;
+    }
+    
     this.authService.signUp(this.user)
       .subscribe(
         res => {
