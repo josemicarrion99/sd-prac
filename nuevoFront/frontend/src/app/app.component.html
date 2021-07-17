@@ -10,6 +10,7 @@
       <a class="navbar-brand" href="/hoteles">Hoteles</a>
 
       <a class="navbar-brand" href="/pack">Pack</a>
+      <a *ngIf="isLogged() == true" class="navbar-brand" href="/mis-reservas">Mis reservas</a>
 
       
       <button *ngIf="isLogged() == false" class="btn btn-light btn-sm"  onclick="location.href='/registrar'" style="float: right; margin-top: 1em;">Registrarse</button>

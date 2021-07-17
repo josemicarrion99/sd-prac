@@ -39,26 +39,26 @@ export class AvionComponent implements OnInit {
     );
   }
 
-  /*   addAvion(form: NgForm) {
-      if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
-        this.avionService.putAvion(form.value).subscribe(
-          res => {
-            window.location.reload();
-          },
-          err => console.log(err)
-        );
-      } else { //sino es que estamos creando
-        this.avionService.createAvion(form.value).subscribe(
-          res => {
-            this.getAviones(); //hace que al añadir un avion se refresque y aparezca el nuevo
-            form.reset(); //al añadir un avion, se vacian los inputs
-            window.location.reload();
-          },
-          err => console.error(err)
-        );
-      }
-  
-    } */
+  addAvion(form: NgForm) {
+    if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
+      this.avionService.putAvion(form.value).subscribe(
+        res => {
+          window.location.reload();
+        },
+        err => console.log(err)
+      );
+    } else { //sino es que estamos creando
+      this.avionService.createAvion(form.value).subscribe(
+        res => {
+          this.getAviones(); //hace que al añadir un avion se refresque y aparezca el nuevo
+          form.reset(); //al añadir un avion, se vacian los inputs
+          window.location.reload();
+        },
+        err => console.error(err)
+      );
+    }
+
+  }
 
   deleteAvion(id: string) {
     if (confirm('¿Estás seguro de que quieres eliminarlo?')) {
@@ -93,9 +93,9 @@ export class AvionComponent implements OnInit {
             console.log("Elemento");
             console.log(element);
 
-            if(form.value.soloIda == true){
+            if (form.value.soloIda == true) {
               auxCuenta.saldo = auxCuenta.saldo - avion.precio;
-            }else{
+            } else {
               auxCuenta.saldo = auxCuenta.saldo - (2 * avion.precio);
             }
 
@@ -108,6 +108,7 @@ export class AvionComponent implements OnInit {
                 avion.reservadoHasta = form.value.reservarHasta;
                 avion.disponible = false;
                 avion.soloIda = form.value.soloIda;
+                avion.correoComprador = localStorage.getItem('emailSesionActual');
 
                 console.log("Actualmente el avion sera:");
                 console.log(avion);
@@ -163,7 +164,7 @@ export class AvionComponent implements OnInit {
   }
 
   anularReserva(avion: Avion) {
-    localStorage.removeItem('avionReservado');
+    localStorage.setItem('avionReservado', "");
 
     const auxTarjetaUsu = localStorage.getItem('tarjetaCreditoSesionActual');
     const auxCorreoUsu = localStorage.getItem('emailSesionActual');
@@ -191,6 +192,7 @@ export class AvionComponent implements OnInit {
             avion.disponible = true;
             avion.reservadoDesde = undefined;
             avion.reservadoHasta = undefined;
+            avion.correoComprador = "";
 
 
             console.log("Actualmente el avion sera:");

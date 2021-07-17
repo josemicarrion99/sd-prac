@@ -21,6 +21,7 @@ export class HotelService {
       precio: 0,
       disponible: true,
       _id: "",
+      correoComprador: ""
     };
   }
 

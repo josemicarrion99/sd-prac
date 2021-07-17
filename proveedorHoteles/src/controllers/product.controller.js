@@ -14,8 +14,8 @@ productCtrl.createProduct = async (req, res, next) => {
     precio: req.body.precio,
 
     disponible: req.body.disponible,
-    reservadoDesde: req.body.reservadoDesde,
-    reservadoHasta: req.body.reservadoHasta,
+    correoComprador: req.body.correoComprador
+
   });
 
   await product.save(); //lo almacenamos (ponemos await porque es una operación de la bbdd)

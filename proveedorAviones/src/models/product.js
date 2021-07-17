@@ -9,6 +9,7 @@ const productSchema = new Schema(
     soloIda: {type: Boolean},
 
     disponible: { type: Boolean, default: true },
+    correoComprador: {type: String},
     reservadoDesde: {type: Date},
     reservadoHasta: {type: Date}
   },

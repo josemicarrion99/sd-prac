@@ -39,26 +39,26 @@ export class CocheComponent implements OnInit {
     );
   }
 
-  /*   addCoche(form: NgForm) {
-      if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
-        this.cocheService.putCoche(form.value).subscribe(
-          res => {
-            window.location.reload();
-          },
-          err => console.log(err)
-        );
-      } else { //sino es que estamos creando
-        this.cocheService.createCoche(form.value).subscribe(
-          res => {
-            this.getCoches(); //hace que al añadir un coche se refresque y aparezca el nuevo
-            form.reset(); //al añadir un coche, se vacian los inputs
-            window.location.reload();
-          },
-          err => console.error(err)
-        );
-      }
-  
-    } */
+  addCoche(form: NgForm) {
+    if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
+      this.cocheService.putCoche(form.value).subscribe(
+        res => {
+          window.location.reload();
+        },
+        err => console.log(err)
+      );
+    } else { //sino es que estamos creando
+      this.cocheService.createCoche(form.value).subscribe(
+        res => {
+          this.getCoches(); //hace que al añadir un coche se refresque y aparezca el nuevo
+          form.reset(); //al añadir un coche, se vacian los inputs
+          window.location.reload();
+        },
+        err => console.error(err)
+      );
+    }
+
+  }
 
   deleteCoche(id: string) {
     if (confirm('¿Estás seguro de que quieres eliminarlo?')) {
@@ -103,6 +103,7 @@ export class CocheComponent implements OnInit {
                 coche.reservadoDesde = form.value.reservarDesde;
                 coche.reservadoHasta = form.value.reservarHasta;
                 coche.disponible = false;
+                coche.correoComprador = localStorage.getItem('emailSesionActual');
 
                 console.log("Actualmente el coche sera:");
                 console.log(coche);
@@ -158,7 +159,7 @@ export class CocheComponent implements OnInit {
   }
 
   anularReserva(coche: Coche) {
-    localStorage.removeItem('cocheReservado');
+    localStorage.setItem('cocheReservado', "");
 
     const auxTarjetaUsu = localStorage.getItem('tarjetaCreditoSesionActual');
     const auxCorreoUsu = localStorage.getItem('emailSesionActual');
@@ -186,6 +187,7 @@ export class CocheComponent implements OnInit {
             coche.disponible = true;
             coche.reservadoDesde = undefined;
             coche.reservadoHasta = undefined;
+            coche.correoComprador = "";
 
             console.log("Actualmente el coche sera:");
             console.log(coche);

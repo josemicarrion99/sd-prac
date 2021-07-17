@@ -8,7 +8,8 @@ const productSchema = new Schema(
     precio: { type: Number, required: true },
     disponible: { type: Boolean, default: true },
     reservadoDesde: {type: Date},
-    reservadoHasta: {type: Date}
+    reservadoHasta: {type: Date},
+    correoComprador: {type: String}
   },
   {
     versionKey: false, //dato de cuando fue creado/modificado por ultima vez

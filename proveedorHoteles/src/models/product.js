@@ -8,6 +8,7 @@ const productSchema = new Schema(
     precio: { type: Number, required: true },
 
     disponible: { type: Boolean, default: true },
+    correoComprador: { type: String},
     reservadoDesde: {type: Date},
     reservadoHasta: {type: Date}
   },

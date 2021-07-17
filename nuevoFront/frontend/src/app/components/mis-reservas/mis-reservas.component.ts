@@ -11,11 +11,11 @@ import { Cuenta } from 'src/app/models/cuenta';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-pack',
-  templateUrl: './pack.component.html',
-  styleUrls: ['./pack.component.css']
+  selector: 'app-mis-reservas',
+  templateUrl: './mis-reservas.component.html',
+  styleUrls: ['./mis-reservas.component.css']
 })
-export class PackComponent implements OnInit {
+export class MisReservasComponent implements OnInit {
 
   constructor(
     public cocheService: CocheService,
@@ -27,14 +27,14 @@ export class PackComponent implements OnInit {
   ngOnInit(): void {
     this.getCoches();
     this.getAviones();
-    this.getHoteles(); 
+    this.getHoteles();
   }
 
   getCoches() {
     this.cocheService.getCoches().subscribe(
       res => {
         for (var i = 0; i < res.length; i++) {
-          if (res[i].disponible == true || this.isBookedCoche(res[i]) == true) {
+          if (res[i].correoComprador ==  localStorage.getItem('emailSesionActual')) {
             this.cocheService.coches.push(res[i]);
           }
         }
@@ -47,7 +47,7 @@ export class PackComponent implements OnInit {
     this.hotelService.getHoteles().subscribe(
       res => {
         for (var i = 0; i < res.length; i++) {
-          if (res[i].disponible == true || this.isBookedHotel(res[i]) == true) {
+          if (res[i].correoComprador ==  localStorage.getItem('emailSesionActual')) {
             this.hotelService.hoteles.push(res[i]);
           }
         }
@@ -60,7 +60,7 @@ export class PackComponent implements OnInit {
     this.avionService.getAviones().subscribe(
       res => {
         for (var i = 0; i < res.length; i++) {
-          if (res[i].disponible == true || this.isBookedAvion(res[i]) == true) {
+          if (res[i].correoComprador ==  localStorage.getItem('emailSesionActual')) {
             this.avionService.aviones.push(res[i]);
           }
         }

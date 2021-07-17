@@ -41,6 +41,10 @@ export class InicioSesionComponent implements OnInit {
         console.log(res);
         localStorage.setItem('token', `Bearer ${res.token}`);
         localStorage.setItem('emailSesionActual', this.user.email);
+        localStorage.setItem('cocheReservado', "");
+        localStorage.setItem('hotelReservado', "");
+        localStorage.setItem('avionReservado', "");
+
 
         this.authService.getUsuarios().toPromise().then(
           (cuentas) => {
@@ -54,7 +58,7 @@ export class InicioSesionComponent implements OnInit {
           }
         )
 
-        this.router.navigate(['/coches'])
+        this.router.navigate(['/pack'])
       },
       err => console.log(err)
     )

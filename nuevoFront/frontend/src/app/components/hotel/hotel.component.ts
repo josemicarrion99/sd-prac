@@ -39,26 +39,26 @@ export class HotelComponent implements OnInit {
     );
   }
 
-  /*   addHotel(form: NgForm) {
-      if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
-        this.hotelService.putHotel(form.value).subscribe(
-          res => {
-            window.location.reload();
-          },
-          err => console.log(err)
-        );
-      } else { //sino es que estamos creando
-        this.hotelService.createHotel(form.value).subscribe(
-          res => {
-            this.getHoteles(); //hace que al añadir un hotel se refresque y aparezca el nuevo
-            form.reset(); //al añadir un hotel, se vacian los inputs
-            window.location.reload();
-          },
-          err => console.error(err)
-        );
-      }
-  
-    } */
+  addHotel(form: NgForm) {
+    if (form.value._id) { //si el input oculto de id tiene un valor es que hay actualizar
+      this.hotelService.putHotel(form.value).subscribe(
+        res => {
+          window.location.reload();
+        },
+        err => console.log(err)
+      );
+    } else { //sino es que estamos creando
+      this.hotelService.createHotel(form.value).subscribe(
+        res => {
+          this.getHoteles(); //hace que al añadir un hotel se refresque y aparezca el nuevo
+          form.reset(); //al añadir un hotel, se vacian los inputs
+          window.location.reload();
+        },
+        err => console.error(err)
+      );
+    }
+
+  }
 
   deleteHotel(id: string) {
     if (confirm('¿Estás seguro de que quieres eliminarlo?')) {
@@ -103,6 +103,7 @@ export class HotelComponent implements OnInit {
                 hotel.reservadoDesde = form.value.reservarDesde;
                 hotel.reservadoHasta = form.value.reservarHasta;
                 hotel.disponible = false;
+                hotel.correoComprador = localStorage.getItem('emailSesionActual');
 
                 console.log("Actualmente el hotel sera:");
                 console.log(hotel);
@@ -158,7 +159,7 @@ export class HotelComponent implements OnInit {
   }
 
   anularReserva(hotel: Hotel) {
-    localStorage.removeItem('hotelReservado');
+    localStorage.setItem('hotelReservado', "");
 
     const auxTarjetaUsu = localStorage.getItem('tarjetaCreditoSesionActual');
     const auxCorreoUsu = localStorage.getItem('emailSesionActual');
@@ -186,6 +187,7 @@ export class HotelComponent implements OnInit {
             hotel.disponible = true;
             hotel.reservadoDesde = undefined;
             hotel.reservadoHasta = undefined;
+            hotel.correoComprador = "";
 
             console.log("Actualmente el hotel sera:");
             console.log(hotel);

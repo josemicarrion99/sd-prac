@@ -23,6 +23,7 @@ export class AvionService {
       soloIda: false,
       disponible: true,
       _id: "",
+      correoComprador: ""
     };
   }
 

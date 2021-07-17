@@ -4,7 +4,8 @@ export interface Avion{
     precio: number
     soloIda: boolean
 
-    disponible: Boolean
+    disponible:boolean
+    correoComprador: string
     _id: string
     reservadoDesde?: Date
     reservadoHasta?: Date

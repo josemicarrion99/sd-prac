@@ -13,8 +13,7 @@ productCtrl.createProduct = async (req, res, next) => {
     matricula: req.body.matricula,
     precio: req.body.precio,
 
-    reservadoDesde: req.body.reservadoDesde,
-    reservadoHasta: req.body.reservadoHasta,
+    
   });
 
   await product.save(); //lo almacenamos (ponemos await porque es una operación de la bbdd)
